@@ -18,7 +18,7 @@ cd sqe-gradebook
 3. Install the required dependencies:
 
 ```bash
-pip install -r requirements.txt
+install -requirements.txt
 ```
 
 ## Running Tests
@@ -26,7 +26,7 @@ pip install -r requirements.txt
 Tests will be added in a later lab.
 
 ```bash
-pytest
+junit
 ```
 
 ## Badges
