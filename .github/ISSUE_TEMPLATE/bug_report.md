@@ -6,9 +6,9 @@ Describe the bug.
 
 ## Steps to Reproduce
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Expected Result
 
@@ -20,7 +20,7 @@ What actually happens?
 
 ## Environment
 
-Operating system, Python version, etc.
+Operating system, Java version, IDE, etc.
 
 ## Severity
 
