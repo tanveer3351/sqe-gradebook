@@ -10,7 +10,7 @@ public class student {
     private List<Double> scores;
 
 
-    public void addScore(double score) {
+    public void sumScore(double score) {
     if (score < 0) {
         throw new IllegalArgumentException("Score cannot be negative");
     }
