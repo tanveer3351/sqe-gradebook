@@ -3,7 +3,7 @@ package gradebook;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Student {
+public class student {
 
     private String name;
     private String rollNo;
