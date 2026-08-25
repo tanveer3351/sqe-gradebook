@@ -1,3 +1,3 @@
 # Contributing
 
-The project will use a branching strategy to keep the `main` branch stable. New features and fixes will be developed in separate branches created from `main`. Changes will be submitted through pull requests before being merged into `main`. Pull requests will be reviewed before merging. The exact branch naming strategy will be defined later.
+All new work should be developed on a separate feature branch instead of directly on the main branch. Branch names should clearly describe the purpose of the change, such as `feature/add-student` or `fix/score-validation`. Changes should be committed using clear Conventional Commit messages. Changes should be reviewed through a Pull Request before being merged into the main branch.
