@@ -7,12 +7,15 @@ public class student {
 
     private String name;
     private String rollNo;
-    private List<Double> s;
+    private List<Double> score;
 
 
-    public void sumScore(double s) {
+    public void sumScore(double score) {
+         if (score < 0) {
+        throw new IllegalArgumentException("Score cannot be negative");
+    }
 
-    s.add(s);
+    score.add(score);
     }   
 
     public Student(String name, String rollNo) {
