@@ -5,9 +5,9 @@ import java.util.List;
 
 public class student {
 
-    private String name;
-    private String id_number;
-    private List<Double> score;
+    private String Name;
+    private String Id_number;
+    private List<Double> scores;
 
 
     public void sumScore(double score) {
@@ -15,7 +15,7 @@ public class student {
         throw new IllegalArgumentException("Score cannot be negative");
     }
 
-    score.add(score);
+    scores.add(score);
     }   
 
     public Student(String name, String rollNo) {
