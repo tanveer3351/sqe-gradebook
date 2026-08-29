@@ -9,6 +9,15 @@ public class student {
     private String rollNo;
     private List<Double> scores;
 
+
+    public void sumScore(double score) {
+    if (score < 0) {
+        throw new IllegalArgumentException("Score cannot be negative");
+    }
+
+    scores.add(score);
+    }   
+
     public Student(String name, String rollNo) {
         this.name = name;
         this.rollNo = rollNo;
