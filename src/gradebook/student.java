@@ -6,7 +6,7 @@ import java.util.List;
 public class student {
 
     private String name;
-    private String rollNo;
+    private String roll_no;
     private List<Double> score;
 
 
