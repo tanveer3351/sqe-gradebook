@@ -1,9 +1,29 @@
-class GradeBook {
+package gradebook;
 
-    public int sumScores(Student student) {
-        int sum = 0;
+import java.util.ArrayList;
+import java.util.List;
 
-        for (int score : student.getScores()) {
+public class GradeBook {
+
+    private List<Student> students = new ArrayList<>();
+
+    public void addStudent(Student student) {
+
+        for (Student s : students) {
+            if (s.getRollNo().equals(student.getRollNo())) {
+                throw new IllegalArgumentException(
+                    "Duplicate roll number: " + student.getRollNo()
+                );
+            }
+        }
+
+        students.add(student);
+    }
+
+    public double sumScores(Student student) {
+        double sum = 0;
+
+        for (double score : student.getScores()) {
             sum += score;
         }
 
@@ -11,7 +31,11 @@ class GradeBook {
     }
 
     public double avgScores(Student student) {
-        
-        return (double) sumScores(student) / student.getScores().size();
+
+        if (student.getScores().isEmpty()) {
+            return 0;
+        }
+
+        return sumScores(student) / student.getScores().size();
     }
 }
