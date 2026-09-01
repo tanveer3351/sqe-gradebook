@@ -5,29 +5,33 @@ import java.util.List;
 
 public class Student {
 
-    private String Name;
+    private String name;
     private String Id_number;
     private List<Double> scores;
 
-    public student(String name, String rollNo) {
+    public Student(String name, String rollNo) {
         this.name = name;
-        this.rollNo = rollNo;
-        this.s = new ArrayList<>();
+        this.Id_number = rollNo;
+        this.scores = new ArrayList<>();
     }
+
     public void addScore(double score) {
-    if (score < 0) {
-        throw new IllegalArgumentException("Score cannot be negative");
+        if (score < 0) {
+            throw new IllegalArgumentException("Score cannot be negative");
+        }
+
+        scores.add(score);
     }
 
-    scores.add(score);
-    }   
-
-     public String getName() {
+    public String getName() {
         return name;
     }
 
-    public List<Integer> getScores() {
+    public String getRollNo() {
+        return Id_number;
+    }
+
+    public List<Double> getScores() {
         return scores;
     }
-    
 }
