@@ -11,10 +11,7 @@ class GradeBook {
     }
 
     public double avgScores(Student student) {
-        if (student.getScores().isEmpty()) {
-            return 0;
-        }
-
+        
         return (double) sumScores(student) / student.getScores().size();
     }
 }
