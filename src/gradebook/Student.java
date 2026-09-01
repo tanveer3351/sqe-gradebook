@@ -16,9 +16,9 @@ public class Student {
     }
 
     public void addScore(double score) {
-        if (score < 0) {
-            throw new IllegalArgumentException("Score cannot be negative");
-        }
+    if (score < 0) {
+        throw new IllegalArgumentException("Scores cannot be negative");
+    }
 
         scores.add(score);
     }
