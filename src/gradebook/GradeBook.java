@@ -36,6 +36,8 @@ public class GradeBook {
             return 0;
         }
 
-        return sumScores(student) / student.getScores().size();
+        double average = sumScores(student) / (double) student.getScores().size();
+
+        return Math.round(average * 100.0) / 100.0;
     }
 }
