@@ -25,7 +25,7 @@
 | TC-004       | PASS    | Average calculated correctly                                                                                           |
 | TC-005       | PASS    | Empty list returned 0                                                                                                  |
 | TC-006       | PASS    | Single score returned correctly                                                                                        |
-| TC-007       | FAIL    | Duplicate roll number accepted                                                                                         |
+| TC-007       | FAIL    | Duplicate roll number accepted— [Issue #15](#14)                                                                       |
 | TC-008       | BLOCKED | No name comparison method exists                                                                                       |
 | TC-009       | PASS    | Score 100 accepted                                                                                                     |
 | TC-010       | PASS    | Score 0 accepted                                                                                                       |
