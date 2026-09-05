@@ -14,3 +14,20 @@
 | TC-010 | Accept minimum score | REQ-6 | Student exists | Call `addScore(0)` | Score 0 is accepted | High | Boundary / Functional |
 | TC-011 | Mid-range grade conversion | REQ-7 | A valid score is available | Provide score 75 and request its grade letter | Correct grade letter is returned | Medium | Functional |
 | TC-012 | Grade conversion boundary | REQ-7 | Score at a grade boundary is available | Provide a boundary score and request its grade letter | Correct grade letter is returned | Medium | Boundary / Functional |
+
+
+
+| ID |    Result     |         Note                                                                                                              |
+| ------------ | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| TC-001       | PASS    | Score 80 was successfully added                                                                                       |
+| TC-002       | PASS    | Negative score is not accepted                                                                                        |
+| TC-003       | BLOCKED | `addScore()` accepts only double                                                                                      |
+| TC-004       | PASS    | Average calculated correctly                                                                                           |
+| TC-005       | PASS    | Empty list returned 0                                                                                                  |
+| TC-006       | PASS    | Single score returned correctly                                                                                        |
+| TC-007       | FAIL    | Duplicate roll number accepted                                                                                         |
+| TC-008       | BLOCKED | No name comparison method exists                                                                                       |
+| TC-009       | PASS    | Score 100 accepted                                                                                                     |
+| TC-010       | PASS    | Score 0 accepted                                                                                                       |
+| TC-011       | BLOCKED | No grade-letter conversion implemented                                                                                 |
+| TC-012       | BLOCKED | No grade-letter conversion implemented                                                                                 |
