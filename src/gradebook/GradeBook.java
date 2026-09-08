@@ -41,6 +41,38 @@ public class GradeBook {
         return Math.round(average * 100.0) / 100.0;
     }
 
+    public void validateScoreCount(Student student) {
+
+        int count = student.getScores().size();
+
+        if (count < 1 || count > 6) {
+            throw new IllegalArgumentException(
+                    "Student must have between 1 and 6 scores"
+            );
+        }
+    }
+
+    public void validateName(String name) {
+
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Name cannot be empty"
+            );
+        }
+
+        if (name.length() > 50) {
+            throw new IllegalArgumentException(
+                    "Name cannot exceed 50 characters"
+            );
+        }
+
+        if (!name.matches("[A-Za-z -]+")) {
+            throw new IllegalArgumentException(
+                    "Name can contain only letters, spaces, and hyphens"
+            );
+        }
+    }
+
     public String letterGrade(double score) {
         if (score < 0 || score > 100) {
             throw new IllegalArgumentException("Score must be between 0 and 100");
