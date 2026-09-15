@@ -35,3 +35,38 @@ The complete set of boundary test values is:
 78, 79, 80
 88, 89, 90
 99, 100, 101
+```
+
+
+
+# Boundary Value Analysis — `Roster` Score-Count Rule
+
+## Task 3: Enumerate All Boundaries
+
+The `Roster` accepts a score count from **1 to 6**. A score count below 1 or above 6 is considered invalid.
+
+| Score Count Range | Expected Result |
+|---|---|
+| 1–6 | Valid / Accepted |
+| < 1 or > 6 | Invalid / Rejected |
+
+### Boundary Pairs
+
+| Boundary | Value - 1 | Expected | Boundary Value | Expected | Value + 1 | Expected |
+|---:|---:|---|---:|---|---:|---|
+| 1 | 0 | Invalid / Rejected | 1 | Valid / Accepted | 2 | Valid / Accepted |
+| 6 | 5 | Valid / Accepted | 6 | Valid / Accepted | 7 | Invalid / Rejected |
+
+## BVA Test Values
+
+The complete set of boundary test values is:
+
+```text
+0, 1, 2
+5, 6, 7
+```
+
+
+
+
+
