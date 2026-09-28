@@ -5,11 +5,33 @@ import java.util.List;
 
 public class GradeBook {
 
-    private List<Student> students = new ArrayList<>();
+    private List<Student> students;
 
+    public GradeBook() {
+        students = new ArrayList<>();
+    }
+
+    /*
+     * Returns all registered students.
+     */
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    /*
+     * Adds a student to the GradeBook.
+     * Duplicate roll numbers are not allowed.
+     */
     public void addStudent(Student student) {
 
+        if (student == null) {
+            throw new IllegalArgumentException(
+                    "Student cannot be null"
+            );
+        }
+
         for (Student s : students) {
+
             if (s.getRollNo().equals(student.getRollNo())) {
                 throw new IllegalArgumentException(
                         "Duplicate roll number: " + student.getRollNo()
@@ -20,7 +42,75 @@ public class GradeBook {
         students.add(student);
     }
 
+    /*
+     * Finds a student using roll number.
+     */
+    public Student findStudent(String rollNo) {
+
+        for (Student student : students) {
+
+            if (student.getRollNo().equals(rollNo)) {
+                return student;
+            }
+        }
+
+        return null;
+    }
+
+    /*
+     * Adds a score to a registered student.
+     */
+    public void addScore(Student student, double score) {
+
+        if (student == null) {
+            throw new IllegalArgumentException(
+                    "Student cannot be null"
+            );
+        }
+
+        /*
+         * Check whether the student is registered
+         * in this GradeBook.
+         */
+        Student registeredStudent = findStudent(student.getRollNo());
+
+        if (registeredStudent == null) {
+            throw new IllegalArgumentException(
+                    "Student is not registered in the GradeBook"
+            );
+        }
+
+        validateScore(score);
+
+        /*
+         * Maximum 6 scores are allowed.
+         */
+        if (registeredStudent.getScores().size() >= 6) {
+            throw new IllegalArgumentException(
+                    "Student cannot have more than 6 scores"
+            );
+        }
+
+        registeredStudent.addScore(score);
+    }
+
+    /*
+     * Validates an individual score.
+     */
+    public void validateScore(double score) {
+
+        if (score < 0 || score > 100) {
+            throw new IllegalArgumentException(
+                    "Score must be between 0 and 100"
+            );
+        }
+    }
+
+    /*
+     * Calculates total score.
+     */
     public double sumScores(Student student) {
+
         double sum = 0;
 
         for (double score : student.getScores()) {
@@ -30,17 +120,27 @@ public class GradeBook {
         return sum;
     }
 
+    /*
+     * Calculates average score.
+     * Average is rounded to 2 decimal places.
+     */
     public double avgScores(Student student) {
 
         if (student.getScores().isEmpty()) {
             return 0;
         }
 
-        double average = sumScores(student) / (double) student.getScores().size();
+        double average =
+                sumScores(student) / student.getScores().size();
 
         return Math.round(average * 100.0) / 100.0;
     }
 
+    /*
+     * Validates the number of scores.
+     *
+     * Valid range: 1–6
+     */
     public void validateScoreCount(Student student) {
 
         int count = student.getScores().size();
@@ -52,6 +152,9 @@ public class GradeBook {
         }
     }
 
+    /*
+     * Validates student name.
+     */
     public void validateName(String name) {
 
         if (name == null || name.isEmpty()) {
@@ -73,21 +176,33 @@ public class GradeBook {
         }
     }
 
+    /*
+     * Determines letter grade.
+     */
     public String letterGrade(double score) {
+
         if (score < 0 || score > 100) {
-            throw new IllegalArgumentException("Score must be between 0 and 100");
+            throw new IllegalArgumentException(
+                    "Score must be between 0 and 100"
+            );
         }
 
         if (score >= 90) {
             return "A";
-        } else if (score >= 80) {
-            return "B";
-        } else if (score >= 70) {
-            return "C";
-        } else if (score >= 60) {
-            return "D";
-        } else {
-            return "F";
         }
+
+        if (score >= 80) {
+            return "B";
+        }
+
+        if (score >= 70) {
+            return "C";
+        }
+
+        if (score >= 60) {
+            return "D";
+        }
+
+        return "F";
     }
 }

@@ -6,14 +6,30 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestScoreCount {
+public class TestScoreCountBVA {
+
+    private final GradeBook gradeBook = new GradeBook();
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 5, 6})
+    void testValidScoreCountBVA(int scoreCount) {
+
+        Student student = new Student("Ali Khan", "BVA001");
+
+        for (int i = 0; i < scoreCount; i++) {
+            student.addScore(50);
+        }
+
+        assertDoesNotThrow(
+                () -> gradeBook.validateScoreCount(student)
+        );
+    }
 
     @ParameterizedTest
     @ValueSource(ints = {0, 7})
-    void testInvalidScoreCount(int scoreCount) {
+    void testInvalidScoreCountBVA(int scoreCount) {
 
-        GradeBook gradeBook = new GradeBook();
-        Student student = new Student("Ali Khan", "S001");
+        Student student = new Student("Ali Khan", "BVA002");
 
         for (int i = 0; i < scoreCount; i++) {
             student.addScore(50);
@@ -21,22 +37,6 @@ public class TestScoreCount {
 
         assertThrows(
                 IllegalArgumentException.class,
-                () -> gradeBook.validateScoreCount(student)
-        );
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {3})
-    void testValidScoreCount(int scoreCount) {
-
-        GradeBook gradeBook = new GradeBook();
-        Student student = new Student("Ali Khan", "S002");
-
-        for (int i = 0; i < scoreCount; i++) {
-            student.addScore(50);
-        }
-
-        assertDoesNotThrow(
                 () -> gradeBook.validateScoreCount(student)
         );
     }
