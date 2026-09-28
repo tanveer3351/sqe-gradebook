@@ -67,6 +67,30 @@ The complete set of boundary test values is:
 ```
 
 
+# Boundary Value Analysis — `Name` Length Rule
 
+## Task 4: Boundary Tests for Name Length
 
+The `validate_name()` function accepts a name with a length from **1 to 50 characters**. A name with length below 1 or above 50 is considered invalid.
+
+| **Name Length Range** | **Expected Result** |
+| --------------------- | ------------------- |
+| 1–50                  | Valid / Accepted    |
+| < 1 or > 50           | Invalid / Rejected  |
+
+### Boundary Pairs
+
+| **Boundary** | **Value - 1** | **Expected**       | **Boundary Value** | **Expected**     | **Value + 1** | **Expected**       |
+| ------------ | ------------- | ------------------ | ------------------ | ---------------- | ------------- | ------------------ |
+| 1            | 0             | Invalid / Rejected | 1                  | Valid / Accepted | 2             | Valid / Accepted   |
+| 50           | 49            | Valid / Accepted   | 50                 | Valid / Accepted | 51            | Invalid / Rejected |
+
+## BVA Test Values
+
+The complete set of boundary test values is:
+
+```text
+0, 1, 2
+49, 50, 51
+```
 
