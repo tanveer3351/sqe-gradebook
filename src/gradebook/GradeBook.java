@@ -6,9 +6,37 @@ import java.util.List;
 public class GradeBook {
 
     private List<Student> students;
+    private GradeBookFileWriter fileWriter;
 
     public GradeBook() {
-        students = new ArrayList<>();
+    students = new ArrayList<>();
+    fileWriter = new DefaultGradeBookFileWriter();
+    }
+    public GradeBook(GradeBookFileWriter fileWriter) {
+    students = new ArrayList<>();
+    this.fileWriter = fileWriter;
+    }
+
+    public void save_to_file(String filename) {
+
+    StringBuilder content = new StringBuilder();
+
+    for (Student student : students) {
+        content.append(student.getName())
+               .append(",")
+               .append(student.getRollNo())
+               .append(",")
+               .append(avgScores(student))
+               .append(System.lineSeparator());
+    }
+
+    try {
+        fileWriter.write(filename, content.toString());
+    } catch (java.io.IOException e) {
+        throw new GradeBookIOError(
+                "Failed to save GradeBook to file: " + filename, e
+        );
+    }
     }
 
     /*

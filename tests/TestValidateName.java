@@ -1,5 +1,5 @@
 import gradebook.GradeBook;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -8,7 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestValidateName {
 
-    private final GradeBook gradeBook = new GradeBook();
+    private GradeBook gradeBook;
+
+    @BeforeEach
+    void setUp() {
+        gradeBook = new GradeBook();
+    }
 
     @ParameterizedTest
     @ValueSource(strings = {"Ali Khan", "Ali-Khan", "Muhammad Ali"})

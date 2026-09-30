@@ -1,0 +1,34 @@
+name: Java Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Compile source files
+        run: |
+          mkdir -p out
+          javac -d out src/gradebook/*.java
+
+      - name: Compile test files
+        run: |
+          javac -cp "lib/junit-platform-console-standalone-1.10.2.jar:out" \
+            -d out tests/*.java
+
+      - name: Run JUnit tests
+        run: |
+          java -jar lib/junit-platform-console-standalone-1.10.2.jar \
+            execute --class-path out --scan-class-path

@@ -1,11 +1,16 @@
 import gradebook.GradeBook;
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestLetterGrade {
 
-    private final GradeBook gradeBook = new GradeBook();
+    private GradeBook gradeBook;
+
+    @BeforeEach
+    void setUp() {
+        gradeBook = new GradeBook();
+    }
 
     @Test
     void testLetterGradeValidClasses() {

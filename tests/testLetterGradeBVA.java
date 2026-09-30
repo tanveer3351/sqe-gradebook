@@ -1,12 +1,26 @@
 import gradebook.GradeBook;
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class testLetterGradeBVA {
 
-    private final GradeBook gradeBook = new GradeBook();
+    private GradeBook gradeBook;
+
+    // Module-scope fixture: use @BeforeAll for expensive setup
+    // that can be performed once and shared by all tests in this class.
+    @BeforeAll
+    static void setupAll() {
+        System.out.println("Module-scope setup: runs once before all tests");
+    }
+    // Function-scope fixture: use @BeforeEach when each test
+    // needs a fresh setup and should be independent of other tests.
+    @BeforeEach
+    void setUp() {
+        gradeBook = new GradeBook();
+    }
 
     @Test
     void testLetterGradeInvalidBVA(){
