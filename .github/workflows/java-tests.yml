@@ -19,6 +19,9 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Create output directory
+        run: mkdir -p out
+
       - name: Compile source files
         run: |
           mkdir -p out
