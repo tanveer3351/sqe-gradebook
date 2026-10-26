@@ -1,4 +1,11 @@
-# Feature Request
+---
+name: Feature request
+about: Suggest an idea or improvement for the GradeBook project
+title: "[FEATURE] "
+labels: enhancement
+assignees: ""
+
+---
 
 ## Problem
 
