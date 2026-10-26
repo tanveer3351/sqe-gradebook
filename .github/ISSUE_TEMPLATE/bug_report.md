@@ -1,38 +1,36 @@
 ---
 name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
+about: Report a defect in the GradeBook project
+title: "[BUG] "
+labels: bug
+assignees: ""
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+## Description
+Clearly describe the bug.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+## Steps to Reproduce
+1. [Describe the first step]
+2. [Describe the second step]
+3. [Describe the third step]
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+## Expected Result
+Describe what should happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## Actual Result
+Describe what actually happens.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+## Environment
+- Operating System:
+- Java/JDK Version:
+- Project Version or Branch:
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+## Severity
+- [ ] Low
+- [ ] Medium
+- [ ] High
+- [ ] Critical
 
-**Additional context**
-Add any other context about the problem here.
+## Additional Context
+Add relevant screenshots, error messages, or other details if needed.
