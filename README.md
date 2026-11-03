@@ -1,25 +1,27 @@
 # SQE GradeBook
 
-**SQE GradeBook** is a Java-based project developed for the Software Quality Engineering (SQE) course. It provides basic student grade management functionality and serves as a practical project for applying software quality engineering concepts, testing techniques, and defect management practices.
+SQE GradeBook is a Java-based student grade management project developed as part of the **Software Quality Engineering (SQE)** course. The project focuses on managing student information and scores while applying software quality engineering practices, testing techniques, and defect management.
 
 ## Project Objectives
 
 - Manage student records and scores.
-- Calculate total and average scores.
-- Assign letter grades based on student scores.
+- Calculate student and class averages.
+- Assign letter grades.
 - Validate student information and score inputs.
-- Apply software testing techniques to improve software quality.
-- Document defects, test cases, and test results.
+- Apply software testing techniques.
+- Identify, document, and manage software defects.
+- Use Git and GitHub for version control and collaboration.
 
 ## Technologies Used
 
-- **Programming Language:** Java
-- **Java Version:** JDK 17 or later
-- **Testing Framework:** JUnit 5
-- **Mocking Framework:** Mockito
-- **Version Control:** Git
-- **Repository Hosting:** GitHub
-- **IDE:** Visual Studio Code / IntelliJ IDEA
+| Technology | Purpose |
+|---|---|
+| Java | Application development |
+| JUnit 5 | Unit testing |
+| Mockito | Mocking dependencies during testing |
+| Git | Version control |
+| GitHub | Repository hosting and collaboration |
+| GitHub Actions | Automated test workflow |
 
 ## Project Structure
 
@@ -28,26 +30,37 @@ sqe-gradebook/
 │
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   └── feature_request.md
+│   ├── workflows/
+│   │   └── java-tests.yml
 │   └── pull_request_template.md
 │
 ├── docs/
-│   ├── test-plan.md
-│   ├── test-cases.md
-│   ├── rtm.md
-│   ├── ep-analysis.md
 │   ├── bva-analysis.md
+│   ├── ep-analysis.md
+│   ├── rtm.md
+│   ├── test-cases.md
+│   ├── test-plan.md
 │   ├── triage-log.md
 │   ├── unit-testing-notes.md
 │   └── workflow-notes.md
 │
+├── lib/
+│   ├── junit-platform-console-standalone-1.10.2.jar
+│   ├── mockito-core-5.18.0.jar
+│   ├── byte-buddy-1.15.11.jar
+│   ├── byte-buddy-agent-1.15.11.jar
+│   └── objenesis-3.3.jar
+│
 ├── src/
 │   └── gradebook/
-│       ├── GradeBook.java
-│       ├── Student.java
-│       ├── Roster.java
-│       ├── GradeBookFileWriter.java
 │       ├── DefaultGradeBookFileWriter.java
-│       └── GradeBookIOError.java
+│       ├── GradeBook.java
+│       ├── GradeBookFileWriter.java
+│       ├── GradeBookIOError.java
+│       ├── Roster.java
+│       └── Student.java
 │
 ├── tests/
 │   ├── TestAddScoreParameterized.java
@@ -63,49 +76,53 @@ sqe-gradebook/
 ├── .gitignore
 ├── CONTRIBUTING.md
 ├── LICENSE
-└── README.md
+├── README.md
+└── requirements.txt
 ```
+
+**Note:** `out/` contains compiled output and is not included in the project source structure above.
+
+## Prerequisites
+
+- Java Development Kit (JDK) 21 or compatible version.
+- Git.
+- Visual Studio Code or IntelliJ IDEA.
+
+JUnit 5 and Mockito dependencies are included in the `lib/` directory.
 
 ## Getting Started
 
-### Prerequisites
-
-Before working with this project, make sure you have:
-
-- Java Development Kit (JDK) 17 or later.
-- Git installed on your system.
-- Visual Studio Code or IntelliJ IDEA.
-- JUnit 5 standalone console launcher for running tests.
-
-### Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/tanveer3351/sqe-gradebook.git
 ```
 
-Navigate to the project directory:
+### 2. Open the Project Directory
 
 ```bash
 cd sqe-gradebook
 ```
 
-## Running Tests
+### 3. Compile the Source and Test Files
 
-This project uses JUnit 5 for unit testing.
+On Windows PowerShell:
 
-The JUnit standalone console launcher can be used to execute the test classes.
-
-After compiling the source and test classes into the appropriate output directory, run:
-
-```bash
-java -jar lib/junit-platform-console-standalone-1.10.2.jar execute --class-path out --scan-class-path
+```powershell
+javac -d out -cp "lib/*" src/gradebook/*.java tests/*.java
 ```
 
-The command scans the compiled classes and executes the discovered JUnit tests.
+### 4. Run the Unit Tests
+
+```powershell
+java -jar lib/junit-platform-console-standalone-1.10.2.jar execute --class-path "out;lib/mockito-core-5.18.0.jar;lib/byte-buddy-1.15.11.jar;lib/byte-buddy-agent-1.15.11.jar;lib/objenesis-3.3.jar" --scan-class-path
+```
+
+The JUnit console launcher discovers and executes the compiled test classes.
 
 ## Software Quality Engineering Practices
 
-The project demonstrates the following SQE concepts:
+This project applies the following SQE concepts:
 
 | Lab | Topic |
 |---|---|
@@ -121,40 +138,40 @@ The project demonstrates the following SQE concepts:
 
 ## Documentation
 
-The `docs/` directory contains project documentation, including:
+The `docs/` directory contains project documentation:
 
-- **Test Plan:** Defines the testing scope, objectives, and approach.
+- **Test Plan:** Defines testing objectives, scope, and approach.
 - **Test Cases:** Documents test scenarios and expected results.
-- **Requirements Traceability Matrix (RTM):** Maps requirements to test cases.
-- **Equivalence Partitioning:** Documents valid and invalid input classes.
-- **Boundary Value Analysis:** Identifies and tests boundary conditions.
-- **Triage Log:** Records identified defects and their status.
-- **Unit Testing Notes:** Documents unit testing activities and execution.
-- **Workflow Notes:** Describes the GitHub-based development workflow.
+- **RTM:** Maps requirements to corresponding test cases.
+- **Equivalence Partitioning:** Documents input partitions.
+- **Boundary Value Analysis:** Documents boundary conditions and test cases.
+- **Triage Log:** Records defects and their management.
+- **Unit Testing Notes:** Documents unit testing activities.
+- **Workflow Notes:** Describes the development workflow.
 
 ## GitHub Workflow
 
-The project uses Git and GitHub to manage development activities.
+The project uses GitHub for source control and collaboration.
 
 The general workflow is:
 
-1. Create or select a GitHub issue.
-2. Create a separate branch for the task.
-3. Implement the required changes.
-4. Test the changes.
+1. Create or select an issue.
+2. Create a feature or bug-fix branch.
+3. Implement the changes.
+4. Run the relevant tests.
 5. Create a Pull Request.
-6. Review the changes.
+6. Review the proposed changes.
 7. Merge the approved Pull Request.
+
+GitHub Actions is used to support automated testing.
 
 ## Contribution
 
-Contributions and improvements are managed through GitHub issues, branches, and pull requests.
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) before contributing.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before contributing to the project.
 
 ## License
 
-This project is available under the license specified in the [LICENSE](LICENSE) file.
+This project is distributed under the terms specified in the [LICENSE](LICENSE) file.
 
 ---
 
