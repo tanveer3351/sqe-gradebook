@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GradeBook.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Java GradeBook Coverage</a> &gt; <a href="index.source.html" class="el_package">gradebook</a> &gt; <span class="el_source">GradeBook.java</span></div><h1>GradeBook.java</h1><pre class="source lang-java linenums">package gradebook;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class GradeBook {
+
+    private List&lt;Student&gt; students;
+    private GradeBookFileWriter fileWriter;
+
+<span class="fc" id="L11">    public GradeBook() {</span>
+<span class="fc" id="L12">    students = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L13">    fileWriter = new DefaultGradeBookFileWriter();</span>
+<span class="fc" id="L14">    }</span>
+<span class="fc" id="L15">    public GradeBook(GradeBookFileWriter fileWriter) {</span>
+<span class="fc" id="L16">    students = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L17">    this.fileWriter = fileWriter;</span>
+<span class="fc" id="L18">    }</span>
+
+    public void save_to_file(String filename) {
+
+<span class="fc" id="L22">    StringBuilder content = new StringBuilder();</span>
+
+<span class="fc bfc" id="L24" title="All 2 branches covered.">    for (Student student : students) {</span>
+<span class="fc" id="L25">        content.append(student.getName())</span>
+<span class="fc" id="L26">               .append(&quot;,&quot;)</span>
+<span class="fc" id="L27">               .append(student.getRollNo())</span>
+<span class="fc" id="L28">               .append(&quot;,&quot;)</span>
+<span class="fc" id="L29">               .append(avgScores(student))</span>
+<span class="fc" id="L30">               .append(System.lineSeparator());</span>
+<span class="fc" id="L31">    }</span>
+
+    try {
+<span class="fc" id="L34">        fileWriter.write(filename, content.toString());</span>
+<span class="fc" id="L35">    } catch (java.io.IOException e) {</span>
+<span class="fc" id="L36">        throw new GradeBookIOError(</span>
+                &quot;Failed to save GradeBook to file: &quot; + filename, e
+        );
+<span class="fc" id="L39">    }</span>
+<span class="fc" id="L40">    }</span>
+
+    /*
+     * Returns all registered students.
+     */
+    public List&lt;Student&gt; getStudents() {
+<span class="nc" id="L46">        return students;</span>
+    }
+
+    /*
+     * Adds a student to the GradeBook.
+     * Duplicate roll numbers are not allowed.
+     */
+    public void addStudent(Student student) {
+
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (student == null) {</span>
+<span class="nc" id="L56">            throw new IllegalArgumentException(</span>
+                    &quot;Student cannot be null&quot;
+            );
+        }
+
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        for (Student s : students) {</span>
+
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (s.getRollNo().equals(student.getRollNo())) {</span>
+<span class="nc" id="L64">                throw new IllegalArgumentException(</span>
+<span class="nc" id="L65">                        &quot;Duplicate roll number: &quot; + student.getRollNo()</span>
+                );
+            }
+<span class="nc" id="L68">        }</span>
+
+<span class="fc" id="L70">        students.add(student);</span>
+<span class="fc" id="L71">    }</span>
+
+    /*
+     * Finds a student using roll number.
+     */
+    public Student findStudent(String rollNo) {
+
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        for (Student student : students) {</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">            if (student.getRollNo().equals(rollNo)) {</span>
+<span class="fc" id="L81">                return student;</span>
+            }
+<span class="fc" id="L83">        }</span>
+
+<span class="fc" id="L85">        return null;</span>
+    }
+
+    /*
+     * Adds a score to a registered student.
+     */
+    public void addScore(Student student, double score) {
+
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        if (student == null) {</span>
+<span class="nc" id="L94">            throw new IllegalArgumentException(</span>
+                    &quot;Student cannot be null&quot;
+            );
+        }
+
+        /*
+         * Check whether the student is registered
+         * in this GradeBook.
+         */
+<span class="fc" id="L103">        Student registeredStudent = findStudent(student.getRollNo());</span>
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (registeredStudent == null) {</span>
+<span class="fc" id="L106">            throw new IllegalArgumentException(</span>
+                    &quot;Student is not registered in the GradeBook&quot;
+            );
+        }
+
+<span class="fc" id="L111">        validateScore(score);</span>
+
+        /*
+         * Maximum 6 scores are allowed.
+         */
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (registeredStudent.getScores().size() &gt;= 6) {</span>
+<span class="fc" id="L117">            throw new IllegalArgumentException(</span>
+                    &quot;Student cannot have more than 6 scores&quot;
+            );
+        }
+
+<span class="fc" id="L122">        registeredStudent.addScore(score);</span>
+<span class="fc" id="L123">    }</span>
+
+    /*
+     * Validates an individual score.
+     */
+    public void validateScore(double score) {
+
+<span class="fc bfc" id="L130" title="All 4 branches covered.">        if (score &lt; 0 || score &gt; 100) {</span>
+<span class="fc" id="L131">            throw new IllegalArgumentException(</span>
+                    &quot;Score must be between 0 and 100&quot;
+            );
+        }
+<span class="fc" id="L135">    }</span>
+
+    /*
+     * Calculates total score.
+     */
+    public double sumScores(Student student) {
+
+<span class="fc" id="L142">        double sum = 0;</span>
+
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        for (double score : student.getScores()) {</span>
+<span class="fc" id="L145">            sum += score;</span>
+<span class="fc" id="L146">        }</span>
+
+<span class="fc" id="L148">        return sum;</span>
+    }
+
+    /*
+     * Calculates average score.
+     * Average is rounded to 2 decimal places.
+     */
+    public double avgScores(Student student) {
+
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">        if (student.getScores().isEmpty()) {</span>
+<span class="nc" id="L158">            return 0;</span>
+        }
+
+<span class="fc" id="L161">        double average =</span>
+<span class="fc" id="L162">                sumScores(student) / student.getScores().size();</span>
+
+<span class="fc" id="L164">        return Math.round(average * 100.0) / 100.0;</span>
+    }
+
+    /*
+     * Validates the number of scores.
+     *
+     * Valid range: 1–6
+     */
+    public void validateScoreCount(Student student) {
+
+<span class="fc" id="L174">        int count = student.getScores().size();</span>
+
+<span class="fc bfc" id="L176" title="All 4 branches covered.">        if (count &lt; 1 || count &gt; 6) {</span>
+<span class="fc" id="L177">            throw new IllegalArgumentException(</span>
+                    &quot;Student must have between 1 and 6 scores&quot;
+            );
+        }
+<span class="fc" id="L181">    }</span>
+
+    /*
+     * Validates student name.
+     */
+    public void validateName(String name) {
+
+<span class="fc bfc" id="L188" title="All 4 branches covered.">        if (name == null || name.isEmpty()) {</span>
+<span class="fc" id="L189">            throw new IllegalArgumentException(</span>
+                    &quot;Name cannot be empty&quot;
+            );
+        }
+
+<span class="fc bfc" id="L194" title="All 2 branches covered.">        if (name.length() &gt; 50) {</span>
+<span class="fc" id="L195">            throw new IllegalArgumentException(</span>
+                    &quot;Name cannot exceed 50 characters&quot;
+            );
+        }
+
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (!name.matches(&quot;[A-Za-z -]+&quot;)) {</span>
+<span class="fc" id="L201">            throw new IllegalArgumentException(</span>
+                    &quot;Name can contain only letters, spaces, and hyphens&quot;
+            );
+        }
+<span class="fc" id="L205">    }</span>
+
+    /*
+     * Determines letter grade.
+     */
+    public String letterGrade(double score) {
+
+<span class="fc bfc" id="L212" title="All 4 branches covered.">        if (score &lt; 0 || score &gt; 100) {</span>
+<span class="fc" id="L213">            throw new IllegalArgumentException(</span>
+                    &quot;Score must be between 0 and 100&quot;
+            );
+        }
+
+<span class="fc bfc" id="L218" title="All 2 branches covered.">        if (score &gt;= 90) {</span>
+<span class="fc" id="L219">            return &quot;A&quot;;</span>
+        }
+
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        if (score &gt;= 80) {</span>
+<span class="fc" id="L223">            return &quot;B&quot;;</span>
+        }
+
+<span class="fc bfc" id="L226" title="All 2 branches covered.">        if (score &gt;= 70) {</span>
+<span class="fc" id="L227">            return &quot;C&quot;;</span>
+        }
+
+<span class="fc bfc" id="L230" title="All 2 branches covered.">        if (score &gt;= 60) {</span>
+<span class="fc" id="L231">            return &quot;D&quot;;</span>
+        }
+
+<span class="fc" id="L234">        return &quot;F&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
