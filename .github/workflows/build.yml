@@ -1,24 +1,75 @@
+
 name: Build
+
 on:
   push:
     branches:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   sonarqube:
     name: SonarQube
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
       - name: Cache SonarQube packages
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
+      - name: Download JaCoCo tools
+        run: |
+          mkdir -p lib
+          curl -fsSL -o lib/org.jacoco.agent-0.8.13-runtime.jar \
+            https://repo.maven.apache.org/maven2/org/jacoco/org.jacoco.agent/0.8.13/org.jacoco.agent-0.8.13-runtime.jar
+
+          curl -fsSL -o lib/org.jacoco.cli-0.8.13-nodeps.jar \
+            https://repo.maven.apache.org/maven2/org/jacoco/org.jacoco.cli/0.8.13/org.jacoco.cli-0.8.13-nodeps.jar
+
+      - name: Create output directory
+        run: mkdir -p out
+
+      - name: Compile source files
+        run: |
+          javac -cp "lib/junit-platform-console-standalone-1.10.2.jar:out" \
+            -d out src/gradebook/*.java
+
+      - name: Compile test files
+        run: |
+          javac -cp "lib/junit-platform-console-standalone-1.10.2.jar:lib/mockito-core-5.18.0.jar:lib/byte-buddy-1.15.11.jar:lib/byte-buddy-agent-1.15.11.jar:lib/objenesis-3.3.jar:out" \
+            -d out tests/*.java
+
+      - name: Run tests with JaCoCo
+        run: |
+          java -javaagent:lib/org.jacoco.agent-0.8.13-runtime.jar=destfile=coverage.exec,append=false \
+            -cp "out:lib/*" \
+            org.junit.platform.console.ConsoleLauncher execute --scan-class-path
+
+      - name: Generate JaCoCo XML report
+        run: |
+          mkdir -p coverage-report-app
+
+          java -jar lib/org.jacoco.cli-0.8.13-nodeps.jar report coverage.exec \
+            --classfiles out/gradebook \
+            --sourcefiles src/gradebook \
+            --xml coverage-report-app/jacoco.xml \
+            --name "GradeBook Application Coverage"
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@4d1dc0c91ee400dcf8a6dddf2f705ac36542e304 # v8.4.0
         env:
