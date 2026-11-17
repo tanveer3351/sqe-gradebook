@@ -70,6 +70,36 @@ jobs:
             --xml coverage-report-app/jacoco.xml \
             --name "GradeBook Application Coverage"
 
+    
+      - name: Enforce 85% Line Coverage
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+
+          report = ET.parse("coverage-report-app/jacoco.xml").getroot()
+          counter = report.find("./counter[@type='LINE']")
+
+          if counter is None:
+              raise SystemExit("ERROR: Line coverage data not found.")
+
+          missed = int(counter.attrib["missed"])
+          covered = int(counter.attrib["covered"])
+          total = missed + covered
+
+          if total == 0:
+              raise SystemExit("ERROR: No executable lines found.")
+
+          coverage = (covered / total) * 100
+
+          print(f"Line Coverage: {coverage:.2f}%")
+          print("Required Coverage: 85%")
+
+          if coverage < 85:
+              raise SystemExit("FAILED: Line coverage is below 85%.")
+
+          print("PASSED: Minimum line coverage requirement satisfied.")
+          PY
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@4d1dc0c91ee400dcf8a6dddf2f705ac36542e304 # v8.4.0
         env:
